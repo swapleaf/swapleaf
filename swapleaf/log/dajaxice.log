@@ -1,0 +1,21 @@
+Function swapleaf.app.friends.ajax.delete_partner is callable
+argv {'username': u'dtn17121'}
+response: {"username": "dtn17121", "lastname": "Nguyen", "firstname": "Dang1712"}
+Function swapleaf.app.friends.ajax.invite_partner is callable
+argv {'username': u'dtn17121'}
+response: {"new_notify": 1, "username": "dtn17121", "firstname": "Dang1712", "lastname": "Nguyen"}
+Function swapleaf.app.friends.ajax.accept_partner is callable
+argv {'username': u'dtn29', 'notify_id': 152}
+response: {"new_notify": 1, "username": "dtn29", "firstname": "Dang29New", "new_content": "<div class='notify-main-content'>\n\t<a href='/dtn29' >\n\t\tDang29New Nguyen\n\t</a>\n\twant to be partner with you\n</div>\n<div class='notify-accept-partner-request'>\n\tYou have accepted this request \n</div>", "lastname": "Nguyen", "reload": "False", "notify_id": 152}
+Function swapleaf.app.friends.ajax.invite_partner is callable
+argv {'username': u'dtn17121'}
+response: {"new_notify": 1, "username": "dtn17121", "firstname": "Dang1712", "lastname": "Nguyen"}
+Function swapleaf.app.friends.ajax.accept_partner is callable
+argv {'username': u'dangnguyen_1712', 'notify_id': 154}
+response: {"new_notify": 1, "username": "dangnguyen_1712", "firstname": "Admin", "new_content": "<div class='notify-main-content'>\n\t<a href='/dangnguyen_1712' >\n\t\tAdmin Nguyen\n\t</a>\n\twant to be partner with you\n</div>\n<div class='notify-accept-partner-request'>\n\tYou have accepted this request \n</div>", "lastname": "Nguyen", "reload": "False", "notify_id": 154}
+Function swapleaf.app.book.ajax.handle_search_sell_book is callable
+argv {'title': u'The Drumbeat Of Jimmy Sands', 'price': u'', 'author': u'', 'alert_email': u'1', 'course_number': u'', 'condition': None}
+response: {}
+Function swapleaf.app.book.ajax.handle_search_title_author_buy_book is callable
+argv {'alert_email': u'1', 'title': u'Jesus And His Times Set', 'author': u''}
+response: {}

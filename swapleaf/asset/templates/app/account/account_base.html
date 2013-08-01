@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block static_file %}
+    <link rel="stylesheet" href="{{STATIC_URL}}css/app/account.css" type="text/css" />
+{% endblock %}
+
+{% block page_script %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/account/ajax.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/account/function.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/account/main.js"></script>
+{% endblock %}
+
+
+{% block main_section %}
+{% endblock %}

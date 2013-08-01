@@ -1,0 +1,104 @@
+{% extends "app/book/book_base.html" %} 
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+<style>
+	#search_buy_book_form,
+	#search_buy_book_form label{
+		font-size:17px;
+	}
+</style>
+
+<div id='buy_book_form_area'>
+	<div class='header'>
+		<h3>Buy book by title, or by author OR by class #</h3>
+	</div>
+	<div class='search-book'>
+		<form name='search_buy_book_form' id='search_buy_book_form' action='/book/buy/' method='POST'>{% csrf_token %}
+			{% if user_login.institution_set.all %}
+				{% with user_login.institution_set.all|first as first_inst %}
+					<input type='hidden' id='school_id'	value='{{ first_inst.id }}'/>
+				{% endwith %}
+				<fieldset class='course-search'>
+					<label>
+						Buy books by
+						{% with user_login.institution_set.all|first as first_inst %}
+							{{ first_inst.name }}
+						{% endwith %}
+						course #
+					</label>
+					<input type="text" id='course_number_input' name='course_number_input' />
+					<input type='button' class='btn' value='Enter Course #' style='margin-top:-10px;margin-left:6px' onclick='handle_course_buy_book(this)'>
+					<div>
+						(Swapleaf will search for all books listed for this class at your school)
+					</div>
+					
+					
+				</fieldset>
+			{% else %}
+				<div class='course-notice'>
+					<fieldset class='course-search'>
+						<label>
+							Buy books by course # (User must select school)
+						</label>
+						<input type="button" class='btn disabled' id='course_number_input' name='course_number_input' style='width:150px' value=""/>
+						<!-- {% if course_number %}
+							<input type="button" class='btn disabled' id='course_number_input' name='course_number_input' style='width:150px' value=""/>
+						{% else %}
+							<input type="button" class='btn disabled' id='course_number_input' name='course_number_input' style='width:150px' value=""/>
+						{% endif %} -->
+					</fieldset>
+				</div>
+			{% endif %}	
+			<fieldset class='scan-isbn'>
+				<input type='button' class='btn disabled' value='Scan'/>
+				<span style="margin-left:15px;font-size:17px">Scan ISBN (For use with mobile app only)</span>
+			</fieldset>
+			<div class='transition-word row-fluid' style='font-size: 22px; margin: 30px 15px 0px 15px'>
+				OR BY TITLE
+			</div>	
+			<fieldset class='isbn-search'>
+				<label>Enter book ISBN (10 OR 13 digits, dashes "-" optional):</label>
+				<input type='text' id='book_isbn_input' name='book_isbn_input' />
+				<input type='button' class='btn' value='Search' onclick='handle_search_isbn_buy_book(this)' style='margin: -8px 0px 0px 5px'>
+			</fieldset>
+			<p style='margin-top: 15px'>Search by author OR title</p>
+			<fieldset class='title-author-search '>
+				<div class='title-search pull-left'>
+					<label>Title:</label>
+					<input type='text' id='book_title_input' name='book_title_input' />
+				</div>
+				<div class='transition-word pull-left' style='margin: 30px 15px 0px 15px'>
+					Or
+				</div>
+				<div class='author-search pull-left'>
+					<label>Author:</label>
+					<input type='text' id='book_author_input' name='book_author_input' />
+					<input type='button' class='btn' value='Search' style='margin: -8px 0px 0px 5px' onclick='handle_search_title_author_buy_book(this)'>
+				</div>
+			</fieldset>
+			<div class='transition-word row-fluid' style='font-size: 22px; margin: 15px 15px 0px 15px'>
+				OR BOOKS BY AUTHOR
+			</div>
+			<fieldset class='author-book-search '>
+					<label>Author:</label>
+					<input type='text' id='available_book_author_input' name='book_author_input' />
+					<input type='button' class='btn' value='Search' style='margin: -8px 0px 0px 5px' onclick='handle_search_available_book_author(this)'>
+				</div>
+			</fieldset>
+			<fieldset class='alert-email-option'>
+				<label style='font-size:17px;'>
+					Alert me with an email if this book or a book for this course becomes available (alert status can be changed later)
+				</label>
+				<div class='input-field'>
+					<input type="radio" id='alert_email_input' name='alert_email_input' value="1" checked />
+						<span class='radio-value'>YES</span>
+					<input type="radio" id='alert_email_input' name='alert_email_input' value="0" />
+						<span class='radio-value'>NO</span>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+<!-- </div> -->
+{% endblock %}

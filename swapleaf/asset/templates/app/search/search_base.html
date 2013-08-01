@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block static_file %}
+    <link rel="stylesheet" href="{{STATIC_URL}}css/app/search.css" type="text/css" />
+{% endblock %}
+
+{% block page_script %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/search/ajax.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/search/function.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/search/main.js"></script>
+{% endblock %}
+
+{% block main_section %}
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "app/book/book_base.html" %}
+
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+<div id='sell_book_delete_area'>
+	<div class='header'>
+		<h3>Delete your selling</h3>
+	</div>
+	<div class='content'>
+		<div class='sell-info row-fluid'>
+			<div class='book-title row-fluid'>
+				<div class='book-title-header pull-left'>
+					<h5>Title: </h5>
+				</div>
+				<div class='book-title-content pull-left'>
+					{{transaction.book.title}}
+				</div>
+			</div>
+			<div class='book-isbn row-fluid'>
+				<div class='book-isbn-header pull-left'>
+					<h5>ISBN10-13: </h5>
+				</div>
+				<div class='book-isbn-content pull-left'>
+					{% if transaction.book.isbn10 and transaction.book.isbn13 %}
+						{{ transaction.book.isbn10 }} - {{transaction.book.isbn13}}
+					{% elif transaction.book.isbn10 and not transaction.book.isbn13 %}
+						{{ transaction.book.isbn10 }}
+					{% elif not transaction.transaction.book.isbn10 and transaction.book.isbn13 %}
+						{{ transaction.book.isbn13 }}
+					{% endif %}
+				</div>
+			</div>
+			<div class='sell-price row-fluid'>
+				<div class='book-price-header pull-left'>
+					<h5>Price:</h5>
+				</div>
+				<div class='book-price-content pull-left'>
+					${{transaction.price}}
+				</div>
+			</div>
+			<div class='offer row-fluid'>
+				<div class='book-condition-header pull-left'>
+					<h5>Offer: </h5>
+				</div>
+				<div class='book-condition-content pull-left'>
+					{% if transaction.offer.all|length > 1 %}
+						{{transaction.offer.all|length}} offers
+					{% else %}
+						{{transaction.offer.all|length}} offer
+					{% endif %}
+				</div>
+			</div>
+			<div class='book-condition row-fluid'>
+				<div class='book-condition-header pull-left'>
+					<h5>Book Condition (1-5, 5 best): </h5>
+				</div>
+				<div class='book-condition-content pull-left'>
+					{{transaction.condition}}
+				</div>
+			</div>
+		</div>
+		<div class='action-area row-fluid'>
+			<input type='button' class='btn btn-primary' value='Delete' onclick='window.location.href="/book/sell/delete/process/?transaction_id={{transaction.transaction_id}}"'>
+			<input type='button' class='btn' value='Cancel' onclick='window.location.href="/"'>
+		</div>
+	</div>
+</div>
+<!-- </div> -->
+{% endblock %}

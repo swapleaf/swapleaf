@@ -1,0 +1,14 @@
+<div class='notify-main-content'>
+	<div class='notify-offer'>
+		<a href='/{{username}}' >
+			{{ first_name }} {{ last_name }} 
+		</a>
+		<span>accept your offer of book {{transaction.book.title}} at price ${{transaction.price}}</span>
+	</div>
+</div>
+<div class='time-location-area'>
+	<div class='action'>
+		<input type='button' class='btn btn-primary' value='Suggest Time & Location' onClick='handle_offer_time_location({{ntf.id}},{{offer.id}},"{{transaction.transaction_id}}")'/> 
+		<input type='button' class='btn' value='Cancel Selling' onClick='handle_cancel_transaction({{ntf.id}},{{offer.id}},"{{transaction.transaction_id}}")' /> 
+	</div>
+</div>

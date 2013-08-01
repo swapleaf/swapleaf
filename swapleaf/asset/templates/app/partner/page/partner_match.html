@@ -1,0 +1,102 @@
+{% extends 'app/partner/partner_base.html' %}
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+    <div class='display-area' style='margin-top:40px;width:800px'>
+        <div class='book-wanted-area'>
+            <div class='title'>
+                 <h4>
+                    {{partner.first_name}} {{partner.last_name}} wants these books that you want to sell or trade.
+                </h4>
+            </div>
+            <div class='content'>
+                <div class='table-header row-fluid'>
+                    <div class='title header-row pull-left' style='width:40%'>
+                        <h5><a href='/partner/book/{{partner.username}}/?sort=title'>Title</a></h5>
+                    </div>
+                    <div class='author header-row pull-left' style='width:25%'>
+                        <h5><a href='/partner/book/{{partner.username}}/?sort=author'>Author</a></h5>
+                    </div>
+                    <div class='date header-row pull-left' style='width:25%'>
+                        <h5><a href='/partner/book/{{partner.username}}/?sort=post_time'>Date Added</a></h5>
+                    </div>
+                </div>
+                <div class='table-body row-fluid'>
+                    <div class='list-partner row-fluid'>
+                    {% for buy_book in books_buy %}
+                        <div class='partner-item row-fluid'>
+                            <div class='title item-row pull-left' style='width:40%'>
+                                <p>{{buy_book.book.title}}</p>
+                            </div>
+                            <div class='author item-row pull-left' style='width:25%'>
+                                <p>{{buy_book.book.author}}</p>
+                            </div>
+                            <div class='date item-row pull-left' style='width:25%'>
+                                <p>{{buy_book.post_time}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>        
+        </div>
+
+        <div class='book-available-area' style='margin-top:50px;'>
+             <div class='title'>
+                 <h4>
+                    {{partner.first_name}} {{partner.last_name}} wants to sell or trade these books that you want to have.
+                </h4>
+            </div>
+            <div class='content'>
+                <div class='table-header row-fluid'>
+                    <div class='title header-row pull-left' style='width:30%'>
+                        <h5><a href='/partner/book/{{partner.username}}/?sort=title'>Title</a></h5>
+                    </div>
+                    <div class='author header-row pull-left' style='width:20%'>
+                        <h5><a href='/partner/book/{{partner.username}}/?sort=author'>Author</a></h5>
+                    </div>
+                    <div class='price header-row pull-left' style='width:15%'>
+                        <h5>Offer Px</h5>
+                    </div>
+                    <div class='condition header-row pull-left' style='width:15%'>
+                        <h5><a href='/partner/book/{{partner.username}}/?sort=condition'>Condition</a></h5>
+                    </div>
+                    <div class='date header-row pull-left' style='width:20%'>
+                        <h5><a href='/partner/book/{{partner.username}}/?sort=post_time'>Date Added</a></h5>
+                    </div>
+                </div>
+                <div class='table-body row-fluid'>
+                    <div class='list-partner row-fluid'>
+                    {% for transaction in books_sell_trade %}
+                        <div class='partner-item row-fluid'>
+                            <div class='title item-row pull-left' style='width:30%'>
+                                <p>{{transaction.book.title}}</p>
+                            </div>
+                            <div class='author item-row pull-left' style='width:20%'>
+                                <p>{{transaction.book.author}}</p>
+                            </div>
+                            <div class='price item-row pull-left' style='width:15%'>
+                                <p>
+                                    {% if transaction.price == 0.00 %}
+                                        Trade / Give
+                                    {% else %}
+                                        {{transaction.price}}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class='condition item-row pull-left' style='width:15%'>
+                                <p>{{transaction.condition}}</p>
+                            </div>
+                            <div class='date item-row pull-left' style='width:20%'>
+                                <p>{{transaction.post_time}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div> 
+            </div>        
+        </div>
+
+    </div>
+<!-- </div> -->
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "app/offer/offer_base.html" %} 
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+	<div id='offer_form_area'>
+		<div class='header'>
+			<h3>Please enter time and location</h3>
+		</div>
+		<div class='content'>
+			<form name='offer_time_location_form' id='offer_time_location_form' action='/offer/time_location/process/' method='POST'>{% csrf_token %}
+				<div class='current-price'>
+					You have agreed with price ${{transaction.price}}
+				</div>
+				<fieldset class='datetime-field'>
+					<label>Date (mm-dd-yyyy)</label>
+					<input type='text' id='datepicker' name='offer_date_input'/>
+					<!-- <select name='offer_month_input' style='width:100px;margin-right:10px'></select>
+					<select name='offer_day_input' style='width:80px;margin-right:10px'></select>
+					<select name='offer_year_input' style='width:80px;margin-right:10px'></select> -->
+				</fieldset>
+				<fieldset class='datetime-field'>
+					<label>Time</label>
+					<select name='offer_hour_input' class='disabled' style='width:80px;margin-right:10px'></select>
+					<select name='offer_minute_input' class='disabled' style='width:80px;margin-right:10px'></select>
+				</fieldset>
+				<fieldset class='location-field'>
+					<label>Location</label>
+					<select name='offer_location_input'>
+						<option value="Main Library">Main Library</option>
+						<option value="Gym" >Gym</option>
+						<option value="Main Dining Hall" >Main Dining Hall</option>
+						<option value="Admission Building">Admission Building</option>
+						<option value="Main Academic Building" >Main Academic Building</option>
+						<option value="Computer Science Building" >Computer Science Building</option>
+						<option value="Biology Building" >Biology Building</option>
+						<option value="Chemistry Building" >Chemistry Building</option>
+						<option value="Geology Building" >Geology Building</option>
+						<option value="Main Campus Bookstore" >Main Campus Bookstore</option>
+						<option value="Student Union" >Student Union</option>
+						<option value="Theatre Building" >Theatre Building</option>
+					</select>
+				</fieldset>
+				<fieldset class='message-field'>
+					<label>Message (Optional)</label>
+					<textarea id='offer_message_textbox'name='offer_message_textbox' maxlength='140'></textarea>
+				</fieldset>
+				<input type='hidden' name='transaction_id' value='{{transaction.transaction_id}}'/>
+				<input type='hidden' name='offer_id' value='{{offer.id}}'/>
+				<input type='hidden' name='notify_id' value='{{notify.id}}'/>
+				<fieldset class='action-field'>
+					<input type='submit' id='make_offer_btn' class='btn btn-small' value='Suggest'>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+<!-- </div> -->
+{% endblock %}

@@ -1,0 +1,22 @@
+
+<div class='user header-row pull-left' style='width:20%'>
+	<p>
+		{{first_name}} {{last_name}}
+	</p>
+</div>
+<div class='rating header-row pull-left' style='width:15%'>
+	<p></p>
+</div>
+<div class='price header-row pull-left' style='width:15%'>
+	<p>${{offer.price}}</p>
+</div>
+<div class='message header-row pull-left' style='width:15%'>
+	<p>{{offer.last_message.content|safe}}</p>
+</div>
+<div class='make-counter-offer header-row pull-left' style='width:15%'>
+	<!-- <input type='button' class='btn btn-primary' value='Make Counter Offer' onClick='handle_make_counter_offer({{notify.id}},{{offer.id}},"{{transaction.transaction_id}}")'/>  -->
+	${{counter_price}} on {{now.month}}-{{now.day}}-{{now.year}} 
+</div>
+<div class='accept-decline header-row pull-left' style='width:15%'>
+	<input type='button' class='btn btn-primary' value='Accept' onClick='handle_accept_offer_confirm({{notify.id}},{{offer.id}},"{{transaction.transaction_id}}")'/> 
+</div>

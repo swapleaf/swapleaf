@@ -1,0 +1,14 @@
+{% extends "app/offer/offer_base.html" %}
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+	<div class='message-area'>
+		<div class='title'>
+			<h4>Completed</h4>
+		</div>
+		<div class='content'>
+			You have agree with the time and location of the book {{transaction.book.title}} with price at ${{transaction.price}}. The transaction is completed. Click <a href='/' style='color:blue;text-decoration:underline'>here</a> to to go back to the homepage
+		</div>
+	</div>
+<!-- </div> -->
+{% endblock %}

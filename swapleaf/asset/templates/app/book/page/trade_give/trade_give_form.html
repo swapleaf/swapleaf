@@ -1,0 +1,162 @@
+{% extends "app/book/book_base.html" %} 
+
+{% block main_section %}
+
+<style>
+	#trade_give_book_form,
+	#trade_give_book_form label{
+		font-size:17px;
+	}
+</style>
+
+<!-- <div class='main-section'> -->
+<div id='trade_give_book_form_area'>
+	<div class='header'>
+		<h3>Trade / Give Away your book to Swapleaf partners</h3>
+	</div>
+	<div class='content'>
+		<div class='addition-info' style='margin-bottom:25px;font-size:17px'>
+			Looking for a book, all books for a course at school or books by a certain author? Use the buy page and Swapleaf will automatically alert you if a partner has it.
+		</div>
+		<form name='trade_give_book_form' id='trade_give_book_form' action='/book/trade_give/' method='POST'>{% csrf_token %}	
+				{% if user_login.institution_set.all %}
+					<fieldset class='course-search'>
+						<label>
+							Enter
+							{% with user_login.institution_set.all|first as first_inst %}
+								{{ first_inst.name }}
+							{% endwith %}
+							course # for this book (optional)
+						</label>
+						{% if course_number %}
+							<input type="text" id='course_number_input' name='course_number_input' value='{{course_number}}'/>
+						{% else %}
+							<input type="text" id='course_number_input' name='course_number_input'/>
+						{% endif %}
+						<span>
+							(Swapleaf will display this book to users searching for this class)
+						</span>
+					</fieldset>
+				{% else %}
+					<div class='course-notice'>
+						<fieldset class='course-search'>
+							<label>
+								Enter course # for this textbook (User must select school)
+							</label>
+							{% if couse_number %}
+								<input type="button" class='btn disabled' id='course_number_input' name='course_number_input' style='width:150px' value=""/>
+							{% else %}
+								<input type="button" class='btn disabled' id='course_number_input' name='course_number_input' style='width:150px' value=""/>
+							{% endif %}
+						</fieldset>
+					</div>
+				{% endif %}	
+				<fieldset class='scan-isbn' style='margin-top:15px;margin-bottom:20px;'>
+					<input type='button' class='btn disabled' value='Scan'/>
+					<span style="margin-left:15px;font-size:17px">Scan ISBN (For use with mobile app only)</span>
+				</fieldset>
+				<fieldset class='isbn-search'>
+					<p class='error' style='color:red'></p>
+					<label>Enter book ISBN (10 OR 13 digits, dashes "-" optional):</label>
+					{% if book %}
+						<input type='text' id='book_isbn_input' name='book_isbn_input' value='{{book.isbn10}}'/>
+					{% else %}
+						<input type='text' id='book_isbn_input' name='book_isbn_input' />
+					{% endif %}
+				</fieldset>
+				
+				<p style='margin-top: 15px'>Search by author OR title</p>
+				<fieldset class='title-author-search '>
+					<div class='title-search pull-left'>
+						<label>Title:</label>
+						{% if book %}
+							<input type='text' id='book_title_input' name='book_title_input' value='{{book.title}}'/>
+						{% else %}
+							<input type='text' id='book_title_input' name='book_title_input' />
+						{% endif %}
+					</div>
+					<div class='transition-word pull-left' style='margin: 30px 15px 0px 15px'>
+						Or
+					</div>
+					<div class='author-search pull-left'>
+						<label>Author:</label>
+						{% if book %}
+							<input type='text' id='book_author_input' name='book_author_input' value='{{book.author}}'/>
+						{% else %}
+							<input type='text' id='book_author_input' name='book_author_input' />
+						{% endif %}
+						<input type='button' class='btn' value='Search' style='margin: -8px 0px 0px 5px' onclick='handle_search_trade_give_book(this)'>
+					</div>
+				</fieldset>
+				<fieldset class='book-condition'>
+					<p class='error' style='color:red'></p>
+					<label>Book Condition ( 1-5, 5 is best ):</label>
+					<div class='input-field'>
+						{% if condition %}
+							{% if condition == '1' %}
+								<input type="radio" name='book_condition_input' value="1" checked>
+							{% else %}
+								<input type="radio" name='book_condition_input' value="1">
+							{% endif %}
+								<span class='radio-value'>1</span>
+
+							{% if condition == '2' %}
+								<input type="radio" name='book_condition_input' value="2" checked>
+							{% else %}
+								<input type="radio" name='book_condition_input' value="2">
+							{% endif %}
+								<span class='radio-value'>2</span>
+
+							{% if condition == '3' %}
+								<input type="radio" name='book_condition_input' value="3" checked>
+							{% else %}
+								<input type="radio" name='book_condition_input' value="3">
+							{% endif %}
+								<span class='radio-value'>3</span>
+
+							{% if condition == '4' %}
+								<input type="radio" name='book_condition_input' value="4" checked>
+							{% else %}
+								<input type="radio" name='book_condition_input' value="4">
+							{% endif %}
+								<span class='radio-value'>4</span>
+
+							{% if condition == '5' %}
+								<input type="radio" name='book_condition_input' value="5" checked>
+							{% else %}
+								<input type="radio" name='book_condition_input' value="5">
+							{% endif %}
+								<span class='radio-value'>5</span>
+						{% else %}
+							<input type="radio" name='book_condition_input' value="1">
+								<span class='radio-value'>1</span>
+							<input type="radio" name='book_condition_input' value="2">
+								<span class='radio-value'>2</span>
+							<input type="radio" name='book_condition_input' value="3">
+								<span class='radio-value'>3</span>
+							<input type="radio" name='book_condition_input' value="4">
+								<span class='radio-value'>4</span>
+							<input type="radio" name='book_condition_input' value="5">
+								<span class='radio-value'>5</span>
+						{% endif %}
+					</div>
+				</fieldset>
+				<fieldset class='alert-email-option'>
+					<label>
+						Alert me with an email if a Swapleaf partner wants this book (Alert status can be changed later) 
+					</label>
+					<div class='input-field'>
+						<input type="radio" id='alert_email_input' name='alert_email_input' value="1" checked>
+							<span class='radio-value'>YES</span>
+						<input type="radio" id='alert_email_input' name='alert_email_input' value="0">
+							<span class='radio-value'>NO</span>
+					</div>
+				</fieldset>
+				<input type='submit' class='btn' value='Submit'>
+		</form>
+	</div>
+</div>
+<!-- </div> -->
+{% endblock %}
+
+<!-- Alert me with an email if a swapleaf user wants to buy this book. Alert status can be changed later -->

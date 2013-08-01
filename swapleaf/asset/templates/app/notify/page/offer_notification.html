@@ -1,0 +1,43 @@
+{% extends 'app/notify/notify_base.html' %}
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+	<div id='title_toolbar_area'>	
+		<div class='notification-title'>
+			<h2> Offers for {{transaction.book.title}}, ${{transaction.price}} in "{{transaction.condition}}" condition</h2>
+		</div>
+	</div>
+	<div id='notify_area'>
+		<div class='table-header row-fluid'>
+			<div class='user header-row pull-left' style='width:20%'>
+				<h5>User</h5>
+			</div>
+			<div class='rating header-row pull-left' style='width:15%'>
+				<h5>Rating</h5>
+			</div>
+			<div class='offer-price header-row pull-left' style='width:15%'>
+				<h5>Offer Price</h5>
+			</div>
+			<div class='message header-row pull-left' style='width:15%'>
+				<h5>Message</h5>
+			</div>
+			<div class='make-counter-offer header-row pull-left' style='width:15%'>
+				<h5>Counter Offer</h5>
+			</div>
+			<div class='accept-decline header-row pull-left' style='width:15%'>
+				<h5>Accept</h5>
+			</div>
+		</div>
+		{% if notifies %}
+		<div class='table-body row-fluid'>
+			<div class='list-offer row-fluid'>
+			{% for notify in notifies %}				
+				<div class='offer-item row-fluid'>
+					{{notify.offer_content|safe}}
+				</div>
+			{% endfor %}
+		</div>
+		{% endif %}
+	</div>
+<!-- </div> -->
+{% endblock %}

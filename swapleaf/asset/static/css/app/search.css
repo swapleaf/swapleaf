@@ -1,0 +1,16 @@
+.book-item {
+	margin-bottom: 35px;
+}
+
+.book-item .action input {
+	margin-right: 10px;
+	margin-top:7px;
+}
+
+.people-item {
+	margin-bottom: 25px
+}
+
+.people-item .action input {
+	margin-top:7px;
+}

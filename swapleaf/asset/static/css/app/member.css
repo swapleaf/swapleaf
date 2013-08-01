@@ -1,0 +1,26 @@
+#id_zip_code {
+	width:50px;
+}
+
+.institution-area {
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+.institution-error {
+	color: red;
+}
+
+.institution-area .title {
+	font-weight: bold;
+}
+
+.error-field {
+	border: 1px solid red;
+}
+
+.errorlist{
+	list-style: none;
+	color:red;
+}
+ 

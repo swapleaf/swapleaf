@@ -1,0 +1,30 @@
+<div class='notify-main-content'>
+	<div class='notify-offer'>
+		<a href='/{{username}}' >
+			{{ first_name }} {{ last_name }} 
+		</a>
+		<span>want to make offer for your book {{transaction.book.title}}</span>
+	</div>
+	<div class='offer-info'>
+		<div class='offer-price'>
+			Offer Price: ${{price}}
+		</div>
+		<!-- <div class='offer-time'>
+			Time: {{time.month}}/{{time.day}}/{{time.year}} at
+			<script>
+				document.write(convert_24hr_to_AM_PM("{{time.hour}}","{{time.minute}}"))
+			</script>
+		</div>
+		<div class='offer-location'>
+			Location: {{location}}
+		</div> -->
+		{% if message %}
+			<div class='offer-message'>
+				Message: {{ message }}
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div class='action-notice-area'> 
+	You have made a counter with price ${{transaction.price}} for this offer
+</div>

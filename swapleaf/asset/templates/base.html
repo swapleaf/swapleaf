@@ -1,0 +1,246 @@
+{% load dajaxice_templatetags %}
+
+<!--
+    Creator: Dang Nguyen
+    Last Update: 01/03/2013 
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    {% dajaxice_js_import %}
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %} Swapleaf {% endblock %}</title>
+    
+    <meta name="Copyright" content="SwapLeaf LLC" />
+    <meta name="keywords" content="Exchange, Book, Student, College, University, Textbook" />
+    <meta name="description" content="" />
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="{{STATIC_URL}}libs/bootstrap/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="{{STATIC_URL}}libs/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" type="text/css" />
+
+    <!-- Custom Site CSS -->
+    <link rel="stylesheet" href="{{STATIC_URL}}css/app/base/styles.css" type="text/css" />
+
+    <!-- Plugin Javascript -->
+    <script type="text/javascript" src="{{STATIC_URL}}libs/jquery/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}libs/jquery-ui/js/jquery-ui-1.9.2.custom.min.js"></script>
+
+    <script src="http://cdn.jquerytools.org/1.2.7/all/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}libs/bootstrap/js/bootstrap.js"></script>
+
+     <!-- Site Base Javascript -->
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/support.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/base_ajax.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/common.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/base_load.js"></script>
+    
+    <!-- {% if autocomplete_data %}
+        <script> 
+            var autocomplete_data = {{autocomplete_data|safe}};
+        </script>
+    {% else %}
+        <script> 
+            var autocomplete_data = [];
+        </script>
+    {% endif %} -->
+
+    {% block static_file %}
+    {% endblock %}
+
+    {% block page_script %}
+    {% endblock %}
+
+</head>
+<body>
+
+<div id='main_body' class='row-fluid'>
+
+    <!-- Header block l-->
+    {% block header %} 
+
+        <div id="Header" class='row-fluid'>
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container">
+                        {% block header_content %}
+                            {% if user_login %}
+                                <input type='hidden' id='user_login' value='{{user_login.username}}'/>
+                            {% else %}
+                                <input type='hidden' id='user_login' value='None'/>
+                            {% endif %}
+                            <div class='normal-row row-fluid' style='height:48px'>
+                                <!-- Navigation Left Section -->
+                                <ul class="nav nav-left">
+                                    <li class="divider-vertical"></li>
+                                    <li class='brand-name responsive-pivot-0'>
+                                        <a href='/'> 
+                                            Swapleaf
+                                        </a>
+                                    </li>
+                                    <li class="divider-vertical"></li>
+                                    {% if user_login %}
+                                        <li class='buy-book responsive-hide responsive-element left-element'>
+                                            <a href='/book/buy'>
+                                                BUY
+                                            </a>
+                                        </li> 
+                                        <li class="divider-vertical"></li>
+                                        <li class='sell-book responsive-hide pointer-cursor responsive-element right-element'>
+                                            <a href='/book/sell'>
+                                                SELL
+                                            </a>
+                                        </li>
+                                        <li class="divider-vertical"></li>
+                                        <li class='trade-give-book responsive-hide pointer-cursor responsive-element right-element'>
+                                            <a href='/book/trade_give'>
+                                                TRADE/GIVE
+                                            </a>
+                                        </li>
+                                        <li class="divider-vertical"></li>
+                                        <li class='invite-partner responsive-hide pointer-cursor responsive-element right-element'>
+                                            <a href='/partner'>
+                                                PARTNERS
+                                            </a>
+                                        </li>
+                                        <li class="divider-vertical"></li>
+                                        <li class='calendar responsive-hide pointer-cursor responsive-element right-element'>
+                                            <a href='/calendar'>
+                                                CALENDAR
+                                            </a>
+                                        </li>
+                                        <li class="divider-vertical"></li>
+                                        <li class='history responsive-hide pointer-cursor responsive-element right-element'>
+                                            <a href='/history'>
+                                                HISTORY
+                                            </a>
+                                        </li>
+                                    {% endif %}
+
+                                    <!-- Search bar -->
+                                    
+                                    <!-- <li class='search'>
+                                        <form action="/search/" method="get" class='search-bar pull-left' autocomplete='off'>
+                                            <input type="text" id="search_query" size="100" name='q' placeholder="Search books, people" />
+                                            <input id='search_submit_btn' type="submit" /> 
+                                        </form>
+                                    </li> -->
+                                    
+                                </ul>   
+
+                            <!-- Navigation Right Section -->
+                            {% if user_login %}
+                                <ul class='nav pull-right nav-right'> 
+                                    <li class='user-account'>
+                                        <div class='user-account-area'>
+                                            <a href='/{{user_login.username}}'>
+                                                <div class='fullname pull-left'>
+                                                    {{user_login.first_name}} {{ user_login.last_name}}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
+
+                                    <li class='notification-section'>
+                                        <div id='new_notify'>
+                                            {% if new_notify|length > 0 %}
+                                                <a href='/notification' class="btn-mini"> 
+                                                    {{new_notify|length}}
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                    <li class='user-menu responsive-hide dropdown' id='user_menu'> 
+                                        <div class='user-menu-area'>
+                                            <a href='#' id='handler_user_menu_dropdown' class="dropdown-toggle" role="button" data-toggle="dropdown">
+                                            <div class='dropdown-icon'>                  
+                                                <img src='{{STATIC_URL}}img/app/header/arrow-icon-gray.png' width='17' height='17' alt='dropdown arrow'>    
+                                            </div>
+                                            </a>
+                                            <ul id="user_action" class="dropdown-menu">
+                                                <li id="notification">
+                                                    <a href="/notification">
+                                                        {% if new_notify|length > 0 %}
+                                                            Notification ({{new_notify|length}})
+                                                        {% else %}
+                                                            Notification
+                                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                                <li class='account-settings'>
+                                                    <a href='/settings'>
+                                                        Settings
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href='/logout'>
+                                                        Sign Out
+                                                    </a>
+                                                </li>      
+                                            </ul>
+                                        </div>                                     
+                                    </li>
+                                </ul>
+                            {% else %}
+                                <ul class='nav pull-right nav-right signup-login'> 
+                                    <li class='signup pointer-cursor'>
+                                        <a href='/signup'>
+                                            SIGN UP
+                                        </a>
+                                    </li>
+                                    <li class='short-divider'></li>
+                                    <li class='login pointer-cursor'>     
+                                        <a href='/login'>
+                                            LOGIN
+                                        </a>            
+                                    </li>
+                                </ul>
+                            {% endif %}
+                    </div>
+                    {% endblock %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}  
+
+    <!-- Content block -->
+    {% block content %} 
+        <div id='Content'>
+            <div class='alert-message'>
+                {% if message %}
+                    {{ message }}
+                {% endif %}
+            </div>
+            <div class='main-section'>
+                {% block main_section %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+
+    <!-- Footer Block -->
+    {% block footer %} 
+    {% endblock %}
+
+    <!--  Hidden and Modal field here -->
+    {% block hidden_modal %} 
+    {% endblock %}
+    <!--  Hidden and Modal field here -->
+
+    <!--  Additional script if needed here -->
+    {% block additional_script %} 
+    {% endblock %}
+    <!--  Additional script if needed here -->
+    
+</div>
+</body>
+</html>
+

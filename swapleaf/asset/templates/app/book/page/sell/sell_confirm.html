@@ -1,0 +1,66 @@
+{% extends "app/book/book_base.html" %}
+
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+<div id='sell_book_confirm_area'>
+	<div class='header'>
+		<h3>Confirm your book</h3>
+	</div>
+	<div class='content'>
+		<div class='book-sell-info row-fluid'>
+			<div class='book-title row-fluid'>
+				<div class='book-title-header pull-left'>
+					<h5>Title: </h5>
+				</div>
+				<div class='book-title-content pull-left'>
+					{{book.title}}
+				</div>
+			</div>
+			<div class='book-author row-fluid'>
+				<div class='book-author-header pull-left'>
+					<h5>Author:</h5>
+				</div>
+				<div class='book-author-content pull-left'>
+					{{book.author}}
+				</div>
+			</div>
+			<div class='book-isbn row-fluid'>
+				<div class='book-isbn-header pull-left'>
+					<h5>ISBN10-13: </h5>
+				</div>
+				<div class='book-isbn-content pull-left'>
+					{% if book.isbn10 and book.isbn13 %}
+						{{ book.isbn10 }} - {{book.isbn13}}
+					{% elif book.isbn10 and not book.isbn13 %}
+						{{ book.isbn10 }}
+					{% elif not book.isbn10 and book.isbn13 %}
+						{{ book.isbn13 }}
+					{% endif %}
+				</div>
+			</div>
+			<div class='book-price row-fluid'>
+				<div class='book-price-header pull-left'>
+					<h5>Price:</h5>
+				</div>
+				<div class='book-price-content pull-left'>
+					${{book_price}}
+				</div>
+			</div>
+			<div class='book-condition row-fluid'>
+				<div class='book-condition-header pull-left'>
+					<h5>Book Condition: </h5>
+				</div>
+				<div class='book-condition-content pull-left'>
+					{{book_condition}}
+				</div>
+			</div>
+		</div>
+		<div class='action-area row-fluid'>
+			<input type='button' value='Confirm' onclick='window.location.href="/book/sell/process/"'>
+			<input type='button' value='Go back' onclick='window.location.href="/book/sell/"'>
+		</div>
+	</div>
+</div>
+<!-- </div> -->
+{% endblock %}

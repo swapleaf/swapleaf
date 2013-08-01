@@ -1,0 +1,56 @@
+{% extends "app/book/book_base.html" %} 
+
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+<div id='buy_book_edit_form_area'>
+	<div class='header'>
+		<h3>Edit your book you want to buy</h3>
+	</div>
+	<div class='edit-buy-book'>
+		<form name='buy_book_edit_form' id='buy_book_edit_form'>{% csrf_token %}
+			<fieldset class='book-info'>
+				<div class='book-title row-fluid'>
+					<div class='title' style='float:left'>
+						<h5>Title:</h5>
+					</div>
+					<div class='content' style='float:left;margin:10px 0px 0px 8px'>
+						{{buy_book.book.title}}
+					</div>
+				</div>
+				<div class='book-author row-fluid'>
+					<div class='title' style='float:left'>
+						<h5>Author:</h5>
+					</div>
+					<div class='content' style='float:left;margin:10px 0px 0px 8px'>
+						{{buy_book.book.author}}
+					</div>
+				</div>
+			</fieldset>
+			<fieldset class='alert-email-option'>
+				<label>
+					<h5>Alert Email</h5>
+				</label>
+				<div class='input-field'>
+					{% if buy_book.alert_email == 1 %} 
+						<input type="radio" id='alert_email_input' name='alert_email_input' value="1" checked />
+							<span class='radio-value'>yes</span>
+						<input type="radio" id='alert_email_input' name='alert_email_input' value="0" />
+							<span class='radio-value'>no</span>
+					{% else %}
+						<input type="radio" id='alert_email_input' name='alert_email_input' value="1" />
+							<span class='radio-value'>yes</span>
+						<input type="radio" id='alert_email_input' name='alert_email_input' value="0" checked/>
+							<span class='radio-value'>no</span>
+					{% endif %}
+				</div>
+			</fieldset>
+			<fieldset class='action'>
+				<input type='hidden' id='buy_book_id' value='{{buy_book.pk}}' />
+				<input type='button' class='btn btn-primary' value='Edit' onclick='handle_edit_buy_book(this)'/>
+			</fieldset>
+		</form>
+	</div>
+</div>
+<!-- </div> -->
+{% endblock %}

@@ -1,0 +1,37 @@
+<div class='notify-main-content'>
+	<div class='notify-offer'>
+		<a href='/{{username}}' >
+			{{ first_name }} {{ last_name }} 
+		</a>
+		<span>want to make offer for your book {{transaction.book.title}}</span>
+	</div>
+	<div class='offer-info'>
+		<div class='offer-price'>
+			Offer Price: ${{offer.price}}
+		</div>
+		<!-- <div class='offer-time'>
+			Time: {{time.month}}/{{time.day}}/{{time.year}} at
+			<script>
+				document.write(convert_24hr_to_AM_PM("{{time.hour}}","{{time.minute}}"))
+			</script>
+		</div>
+		<div class='offer-location'>
+			Location: {{location}}
+		</div> -->
+		{% if message %}
+			<div class='offer-message'>
+				Message: {{ message }}
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div class='notice-area'> 
+	You have accepted this offer
+</div>
+<div class='time-location-area'>
+	<div class='action'>
+		<!-- <input type='hidden' id='get_username_notify_{{notify_id}}' value='{{username}}'>  -->
+		<input type='button' class='btn btn-primary' value='Suggest Time & Location' onClick='handle_offer_time_location({{notify.id}},{{offer.id}},"{{transaction.transaction_id}}")'/> 
+		<input type='button' class='btn' value='Cancel Selling' onClick='handle_cancel_transaction({{notify.id}},{{offer.id}},"{{transaction.transaction_id}}")' /> 
+	</div>
+</div>

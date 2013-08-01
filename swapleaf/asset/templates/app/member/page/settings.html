@@ -1,0 +1,64 @@
+{% extends "app/member/member_base.html" %}
+
+{% block main_section %}
+<div class='settings-form'>
+   	<h3> Setting Profile</h3>       
+    <form class="settings" id="settings_form" method="post" action="/settings/">{% csrf_token %}
+    	{{ form.non_field_errors }}
+    	<div class="firstname-field fieldWrapper">
+        	{{ form.first_name.errors }}
+        	<label for="id_first_name">First Name:</label>
+        	{{ form.first_name }}
+    	</div>
+    	<div class="lastname-field fieldWrapper">
+        	{{ form.last_name.errors }}
+        	<label for="id_last_name">Last Name:</label>
+        	{{ form.last_name }}
+    	</div>
+    	<div class="email-field fieldWrapper">
+        	{{ form.email.errors }}
+        	<label for="id_email">Email:</label>
+        	{{ form.email }}
+    	</div>
+    	<div class='institution-area'>
+            <p class='institution-error'></p>
+            <p class='current-college'>
+                {% if user_login.get_profile.school %}
+                    <input type='hidden' id='has_college' value="True" />
+                    Current Selected College: {{ user_login.get_profile.school.name}}
+                {% else %}
+                <input type='hidden' id='has_college' value="False" />
+                    You currently do not have any college selected
+                {% endif %} 
+            </p>
+    		<p class='title'>COLLEGE/UNIVERSITY</p>
+    		<div class="state-field fieldWrapper">
+        		<label for='id_state'>State</label>
+        		<select id='id_state' name='state' class='custom-validation-field'></select>
+    		</div>
+    		<div class="city-field fieldWrapper" style="display:none;">
+        		<label for='id_city'>City</label>
+        		<select id='id_city' name='state' class='custom-validation-field'>
+                    <option value="None" selected="selected">---Select the city---</option>
+                </select>
+    		</div>
+    		<div class="institution-field fieldWrapper" style="display:none;">
+        		<label for='id_institution'>School</label>
+        		<select id='id_institution' class='custom-validation-field' name='institution'>
+                    <option value="None" selected="selected">---Select the school---</option>
+                </select>
+    		</div>
+    		<p><h5>And/Or</h5></p>
+    		<div class="zipcode-field fieldWrapper">
+        		{{ form.zip_code.errors }}
+        		<label for="id_zip_code">Zipcode</label>
+        		{{ form.zip_code }}
+    		</div>
+    	</div>
+       	{% if redirect_field_value %}
+       	<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+       	{% endif %}
+      	<p><input type="submit" id="signup_submit_btn" value="Submit" /></p>
+   	</form>
+</div>
+{% endblock %}

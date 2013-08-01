@@ -1,0 +1,99 @@
+{% extends "app/book/book_base.html" %} 
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+<div id="buy_book_listed_area">
+	<div class='display-book'>
+		{% if listed_books %}
+			<div class='table-header row-fluid'>
+				<div class='title header-row pull-left' style='width:24%'>
+					<h4>Title</h4>
+				</div>
+				<div style="width:2%"></div>
+				<div class='author header-row pull-left' style='width:15%'>
+					<h4>Author</h4>
+				</div>
+				<div style="width:2%"></div>
+				<div class='course header-row pull-left' style='width:8%'>
+					<h4>Course</h4>
+				</div>
+				<div class='price header-row pull-left' style='width:8%'>
+					<h4>Price</h4>
+				</div>
+				<div class='condition header-row pull-left' style='width:10%'>
+					<h4>Book Condition</h4>
+				</div>
+				<div class='seller header-row pull-left' style='width:15%'>
+					<h4>Seller</h4>
+				</div>
+				<div class='selling-status header-row pull-left' style='width:10%'>
+					<h4>Selling Status</h4>
+				</div>
+				<div class='offer-action header-row pull-left' style='width:10%'>
+					<h4>Offer</h4>
+				</div>
+			</div>
+			<div class='table-body row-fluid'>
+				<div class='list-found-book row-fluid'>
+				{% for book_transaction in listed_books %}
+					<div class='book_transaction-item row-fluid'>
+						<input type='hidden' id='book_isbn_{{book_transaction.book.isbn10}}' />
+						<div class='title item-row pull-left' style='width:24%'>
+							<p>{{ book_transaction.book.title }}</p>
+						</div>
+						<div style="width:2%"></div>
+						<div class='author item-row pull-left' style='width:15%'>
+							<p>
+								{% if book_transaction.book.author %}
+									{{ book_transaction.book.author }}
+								{% else %}
+									Unknown
+								{% endif %}
+							</p>
+						</div>
+						<div style="width:2%"></div>
+						<div class='course item-row pull-left' style='width:8%'>
+							<p>
+								{{ book_transaction.course.course_number }}
+							</p>
+						</div>
+						<div class='price item-row pull-left' style='width:8%'>
+							<p>
+								{% if book_transaction.transaction_type == '1'%}
+									${{ book_transaction.price}}
+								{% else %}
+									Trade / Give
+								{% endif %}
+							</p>
+						</div>
+						<div class='book_transaction-condition item-row pull-left' style='width:10%'>
+							<p>
+								{{ book_transaction.condition }}
+							</p>
+						</div>
+						<div class='seller item-row pull-left' style='width:15%'>
+							<p>
+								{{ book_transaction.seller.first_name }} {{ book_transaction.seller.last_name}}
+							</p>
+						</div>
+						<div class='selling-status item-row pull-left' style='width:10%'>
+							<p>
+								{{ book_transaction.status }}
+							</p>
+						</div>
+						<div class='offer-action item-row pull-left' style='width:10%'>
+							<input type='button' class='btn btn-small' id="transaction_{{book_transaction.transaction_id}}" value='Offer' onclick='window.location.href="/offer/price/?transaction_id={{book_transaction.transaction_id}}"'>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class='no-item-message'>
+				There are no selling book found with your search. Please try again
+			</div>
+		{% endif %}
+		
+	</div>
+</div>
+<!-- </div> -->
+{% endblock %}

@@ -1,0 +1,38 @@
+<div class='notify-main-content' style='font-size:19px'>
+	<div class='notify-offer' >
+		<a href='/{{username}}' >
+			{{ first_name }} {{ last_name }} 
+		</a>
+		<span>offers</span>
+	</div>
+	<div class='offer-info'>
+		<div class='offer-price'>
+			${{price}}
+		</div>
+		<div class='offer-title'>
+			for {{transaction.book.title}}
+		</div>
+		<!-- <div class='offer-time'>
+			Time: {{time.month}}/{{time.day}}/{{time.year}} at 
+			<script>
+				document.write(convert_24hr_to_AM_PM("{{time.hour}}","{{time.minute}}"))
+			</script>
+		</div>
+		<div class='offer-location'>
+			Location: {{location}}
+		</div> -->
+		{% if message %}
+			<div class='offer-message'>
+				Message: {{ message }}
+			</div>
+		{% endif %} 
+	</div>
+</div>
+<div class='decide-btn-area'> 
+	<input type='hidden' id='get_username_notify_{{notify_id}}' value='{{username}}'> 
+	<input type='button' class='btn btn-primary' value='Accept' onClick='handle_accept_offer_confirm({{notify_id}},{{offer_id}},"{{transaction.transaction_id}}")'/> 
+	<input type='button' class='btn btn-primary' value='Make Counter Offer' onClick='handle_make_counter_offer({{notify.id}},{{offer.id}},"{{transaction.transaction_id}}")'/> 
+	<input type='button' class='btn' value='Decline' onClick='handle_decline_offer({{notify_id}},{{offer_id}},"{{transaction.transaction_id}}")' /> 
+</div>
+
+

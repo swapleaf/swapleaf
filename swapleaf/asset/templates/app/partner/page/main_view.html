@@ -1,0 +1,124 @@
+{% extends 'app/partner/partner_base.html' %}
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+    <div class='title'>
+        <h3>Invite a Partner to trade books on Swapleaf</h3>
+    </div>
+    
+    <div class='search-area row-fluid'>
+        <form method="get" action=".">
+            <fieldset>
+        	   <label> Search by name (Ex: John Smith)</label>
+        	   <input type='text' id='search_input' size="100" name='q' style='width:200px'/>
+                <input type="submit" class='btn' value="Search" style='margin:-8px 0px 0px 6px'>
+            </fieldset>
+         
+        </form>
+    </div>
+    
+    <div class='display-area'>
+        {% if people %}
+        <div class='search-partner-section' style='margin-bottom:40px'>
+            <div class='title'>
+                <h3>People Result</h3>
+            </div>  
+            <div class='list-found-people row-fluid' style='width:1000px'>
+            {% for person in people %}
+                <div class='people-item row-fluid'>
+                    <div class='name item-row pull-left' style='width:35%'>
+                        {{ person.first_name }} {{ person.last_name }}
+                    </div>
+                    <div class='people-school row-fluid pull-left' style='width:45%'>
+                        {% if person.institution_set.all %}
+                            {% with person.institution_set.all|first as first_inst %}
+                                {{ first_inst.name }}
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                    <div class='action item-row pull-left' style='width:10%'>
+                        {% if person.get_profile.partner_status == -1 %}
+                            <input type='button' class='btn btn-small' id='invite_{{person.username}}' value='Invite Partner' onclick='handle_invite_partner(this)'>
+                        {% elif person.get_profile.partner_status == 1 %}
+                            <!-- <input type='button' class='btn btn-small' id='delete_{{person.username}}' value='Delete Partner' onclick='handle_delete_partner(this)'> -->
+                        {% elif person.get_profile.partner_status == -2 %}
+                            <input type='button' class='btn btn-small disabled' id='waiting_{{person.username}}' value='Pending Response'>
+                        {% else  %}
+                            <input type='button' class='btn btn-small' id='response_{{person.username}}' value='Respond'>
+                        {% endif %}
+                    </div>
+                </div>        
+            {% endfor %}
+            </div>
+        </div>
+        {% else %}
+            {% if is_search %}
+                <div class='no-item-message'>
+                    There are no people found with your search. Please try again
+                </div>
+            {% endif %}
+        {% endif %}
+
+
+        <div class='current-partner-section'>
+            <div class='table-header row-fluid'>
+                <div class='last-name header-row pull-left' style='width:15%'>
+                    <h4>Last Name</h4>
+                </div>
+                <div class='first-name header-row pull-left' style='width:15%'>
+                    <h4>First Name</h4>
+                </div>
+                <div class='book-available header-row pull-left' style='width:15%'>
+                    <h4>Books Available</h4>
+                </div>
+                 <div class='book-wanted header-row pull-left' style='width:15%'>
+                    <h4>Book Wanted</h4>
+                </div>
+                <div class='match header-row pull-left' style='width:15%'>
+                    <h4>Matches</h4>
+                </div>
+                <div class='partners-matches header-row pull-left' style='width:15%'>
+                    <h4>Partners Matches</h4>
+                </div>
+                <div class='delete header-row pull-left' style='width:10%'>
+                    
+                </div>
+            </div>
+            <div class='table-body row-fluid'>
+                <div class='list-partner row-fluid'>
+                {% for data in partners_data %}
+                    <div class='partner-item row-fluid'>
+                         <div class='last-name item-row pull-left' style='width:15%'>
+                            {{data.0.last_name}}
+                        </div>
+                        <div class='first-name item-row pull-left' style='width:15%'>
+                            {{data.0.first_name}}
+                        </div>
+                        <div class='book-available item-row pull-left' style='width:15%'>
+                            <a href='/partner/book/available/{{data.0.username}}' style='color:#08C;text-decoration:underline;'>{{data.1}}</a>
+                        </div>
+                        <div class='book-wanted header-row pull-left' style='width:15%'>
+                            <p>
+                                <a href='/partner/book/wanted/{{data.0.username}}' style='color:#08C;text-decoration:underline;'>{{data.0.get_profile.buy_book.all|length}}</a>
+                            </p>
+                        </div>
+                        <div class='match item-row pull-left' style='width:15%'>
+                            <a href='/partner/match/{{data.0.username}}' style='color:#08C;text-decoration:underline;'>{{data.2}}</a>
+                        </div>
+                        <div class='partners-matches header-row pull-left' style='width:15%'>
+                            <p>
+                                <a href='/partner/others/match/{{data.0.username}}' style='color:#08C;text-decoration:underline;'>{{data.3}} </a>
+                            </p>
+                        </div>
+                        <div class='partners-matches header-row pull-left' style='width:10%'>
+                            <input type='button' class='btn btn-small' id='delete_{{data.0.username}}' value='Delete Partner' onclick='handle_delete_partner(this)'>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div
+>        </div>
+       
+    </div>
+<!-- </div> -->
+{% endblock %}

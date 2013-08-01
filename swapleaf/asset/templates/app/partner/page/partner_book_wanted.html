@@ -1,0 +1,41 @@
+{% extends 'app/partner/partner_base.html' %}
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+    <div class='title' style='margin-top:35px'>
+        <h4>{{partner.first_name}} {{partner.last_name}} want to buy these books</h4>
+    </div>
+    
+    <div class='display-area' style='margin-top:25px;width:800px'>
+            <div class='table-header row-fluid'>
+                <div class='title header-row pull-left' style='width:25%'>
+                    <h5><a href='/partner/book/{{partner.username}}/?sort=title'>Title</a></h5>
+                </div>
+                <div class='author header-row pull-left' style='width:25%'>
+                    <h5><a href='/partner/book/{{partner.username}}/?sort=author'>Author</a></h5>
+                </div>
+                <div class='date header-row pull-left' style='width:25%'>
+                    <h5><a href='/partner/book/{{partner.username}}/?sort=post_time'>Date Added</a></h5>
+                </div>
+            </div>
+            <div class='table-body row-fluid'>
+                <div class='list-partner row-fluid'>
+                {% for buy_book in partner.get_profile.buy_book.all %}
+                    <div class='partner-item row-fluid'>
+                        <div class='title item-row pull-left' style='width:25%'>
+                            <p>{{buy_book.book.title}}</p>
+                        </div>
+                        <div class='author item-row pull-left' style='width:25%'>
+                            <p>{{buy_book.book.author}}</p>
+                        </div>
+                        <div class='date item-row pull-left' style='width:25%'>
+                            <p>{{buy_book.post_time}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>        
+        
+    </div>
+<!-- </div> -->
+{% endblock %}

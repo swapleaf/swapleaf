@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block static_file %}
+    <link rel="stylesheet" href="{{STATIC_URL}}css/app/notify.css" type="text/css" />
+{% endblock %}
+
+{% block page_script %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/notify/ajax.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/notify/function.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/app/notify/main.js"></script>
+{% endblock %}
+
+{% block main_section %}
+{% endblock %}

@@ -1,0 +1,11 @@
+<div class='notify-main-content'>
+	<a href='/{{user_add_request.username}}' >
+		{{ first_name }} {{ last_name }} 
+	</a>
+		want to be partner with you 
+</div>
+<div class='decide-btn-area'> 
+	<input type='hidden' id='get_username_notify_{{notify_id}}' value='{{username}}'> 
+	<input type='button' class='btn btn-primary' value='Accept' onClick='handle_accept_partner({{notify_id}})'/> 
+	<input type='button' class='btn' value='Decline' onClick='handle_decline_partner({{notify_id}})' /> 
+</div>

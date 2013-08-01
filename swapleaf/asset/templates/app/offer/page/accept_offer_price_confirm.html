@@ -1,0 +1,62 @@
+{% extends "app/offer/offer_base.html" %}
+
+{% block main_section %}
+<div id='accept_offer_area'>
+	<div class='header'>
+		<h3>Confirm Your Accept</h3>
+	</div>
+	<div class='content'>
+		<div class='book-info' style="margin-bottom:15px">
+			<div class='book-info-title'>
+				<h4>Book Information</h4>
+			</div>
+			<div class='book-info-content'>
+				<div class='book-title'>
+					Title: {{ transaction.book.title }}
+				</div>
+				<div class='book-author'>
+					Author: {{ transaction.book.author }}
+				</div>
+				<div class='book-isbn'>
+					ISBN 10-13:
+						{% if transaction.book.isbn10 and transaction.book.isbn13 %}
+							{{ transaction.book.isbn10 }} - {{transaction.book.isbn13}}
+						{% elif transaction.book.isbn10 and not transaction.book.isbn13 %}
+							{{ transaction.book.isbn10 }}
+						{% elif not transaction.book.isbn10 and transaction.book.isbn13 %}
+							{{ transaction.book.isbn13 }}
+						{% endif %}
+				</div>
+			</div>
+		</div>
+		<div class='offer-info' style="margin-bottom:15px">
+			<div class='offer-info-title'>
+				<h4>Offer Detail</h4>
+			</div>
+			<div class='offer-info-content'>
+				<div class='offer-price'>
+					Offer Price: ${{offer.price}}
+				</div>
+				<!-- <div class='offer-time'>
+					Time: {{offer.transaction_time.month}}/{{offer.transaction_time.day}}/{{offer.transaction_time.year}} at 
+					<script>
+						document.write(convert_24hr_to_AM_PM("{{offer.transaction_time.hour}}","{{offer.transaction_time.minute}}"))
+					</script>
+				</div>
+				<div class='offer-location'>
+					Location: {{offer.location}}
+				</div> -->
+				{% if offer.last_message %}
+					<div class='offer-message'>
+						Message: {{ offer.last_message.content}}
+					</div>
+				{% endif %} 
+			</div>
+		</div>
+	</div>
+</div>
+<div class='decide-btn-area'> 
+	<input type='button' class='btn btn-primary' value='Confirm' onClick='handle_accept_offer_process({{notify.id}},{{offer.id}},"{{transaction.transaction_id}}")'/> 
+	<input type='button' class='btn' value='Cancel' onClick='window.location.href="/"' /> 
+</div>
+{% endblock %}

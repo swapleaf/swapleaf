@@ -1,0 +1,59 @@
+{% extends "app/book/book_base.html" %} 
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+<div id="sell_book_search_area">
+	<div class='display-book'>
+		{% if books %}
+			<div class='table-header row-fluid'>
+				<div class='title header-row pull-left' style='width:40%'>
+					<h4>Title</h4>
+				</div>
+				<div class='author header-row pull-left' style='width:20%'>
+					<h4>Author</h4>
+				</div>
+				<div class='isbn header-row pull-left' style='width:30%'>
+					<h4>ISBN 10-13</h4>
+				</div>
+				<div class='select-action header-row pull-left' style='width:10%'>
+					<h4>Select</h4>
+				</div>
+			</div>
+			<div class='list-found-book row-fluid' style='width:1000px'>
+				{% for book in books %}
+					<div class='book-item row-fluid'>
+						<div class='title item-row pull-left' style='width:40%'>
+							{{ book.title }}
+						</div>
+						<div class='author item-row pull-left' style='width:20%'>
+							{% if book.author %}
+								{{ book.author }}
+							{% else %}
+								Unknown
+							{% endif %}
+						</div>
+						<div class='isbn item-row pull-left' style='width:30%'>
+							{% if book.isbn10 and book.isbn13 %}
+								{{ book.isbn10 }} - {{book.isbn13}}
+							{% elif book.isbn10 and not book.isbn13 %}
+								{{ book.isbn10 }}
+							{% elif not book.isbn10 and book.isbn13 %}
+								{{ book.isbn13 }}
+							{% endif %}
+						</div>
+						<div class='select-action item-row pull-left' style='width:10%'>
+							<input type='button' class='btn btn-small' id="book_{{book.isbn10}}" value='Select' onclick='window.location.href="/book/sell/{{book.isbn10}}"'>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class='no-item-message'>
+				There are no book found with your search. Please try again
+			</div>
+		{% endif %}
+		
+	</div>
+</div>
+<!-- </div> -->
+{% endblock %}

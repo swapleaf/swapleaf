@@ -1,0 +1,33 @@
+{% extends "app/offer/offer_base.html" %} 
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+	<div id='offer_form_area'>
+		<div class='header'>
+			<h3>NOTICE</h3>
+		</div>
+		<div class='content' style='font-size:19px'>
+			<form name='offer_form' id='offer_form' action='/offer/counter/price/process/' method='POST'>{% csrf_token %}
+				<div class='notice-message'>
+					Your counter offer of ${{counter_price}} to {{user_receive.first_name}} {{ user_receive.last_name}} is 
+					<script>
+						var difference = parseFloat("{{max_offer.price}}") - parseFloat("{{counter_price}}")
+						document.write("$" + difference)
+					</script>
+					 less than {{max_offer.user_offer.first_name}} {{ max_offer.user_offer.last_name}}'s current offer
+ 				</div>
+			
+				<input type='hidden' id='offer_message_textbox'name='offer_message_textbox' value='{{message}}' />
+				<input type='hidden' id='offer_price_input' name='offer_price_input' value='{{counter_price}}'/>
+				<input type='hidden' name='transaction_id' value='{{transaction_id}}'/>
+				<input type='hidden' name='offer_id' value='{{offer_id}}'/>
+				<input type='hidden' name='check_price' value='False'> 
+				<fieldset class='action-field' style='margin-top:20px'>
+					<input type='submit' id='make_offer_btn' class='btn btn-primary' value='Make Counter Offer'>
+					<input type='button' id='make_offer_btn' class='btn btn' value='Cancel' onclick='window.location.href="/offer/counter/price/{{offer_id}}/?transaction_id={{transaction_id}}"'>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+<!-- </div> -->
+{% endblock %}

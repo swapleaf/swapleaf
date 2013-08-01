@@ -1,0 +1,615 @@
+{% extends "app/main/main_base.html" %} 
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+	{% if user_login %}
+	<div class='book-buying-area' style='margin-bottom:40px'>
+		<div class='title'>
+			<h3>Buy</h3>
+		</div>
+		<div class='content'>
+			<div class='buy-by-course'>
+				<div class='title' style='font-size:19px; font-weight:bold'>
+					{% if user_login.institution_set.all %}
+						{% with user_login.institution_set.all|first as first_inst %}
+							by {{first_inst.name}} course 
+						{% endwith %}
+					{% else %}
+						by course
+					{% endif %}	
+				</div>
+				<div class='content' style='width:500px;'>
+				
+						<div class='table-header row-fluid'>
+							<div class='course-number header-row pull-left' style='width:25%'>
+								<h5>Course #</h5>
+							</div>
+							<!-- <div style="width:2%"></div> -->
+							<div class='title header-row pull-left' style='width:25%'>
+								<h5>Titles</h5>
+							</div>
+							<!-- <div style="width:2%"></div> -->
+							<div class='sell header-row pull-left' style='width:25%'>
+								<h5>Copies</h5>
+							</div>
+							<div class='edit-delete header-row pull-left' style='width:25%'>
+								<h5>Edit/Delete</h5>
+							</div>
+
+							<!-- <div class='action header-row pull-left' style='width:25%'>
+								<h5>View</h5>
+							</div> -->
+						</div>
+						{% if user_login.get_profile.course.all|length > 0 %}
+						<div class='table-body row-fluid'>
+							<div class='list-course row-fluid'>
+								{% for course in user_login.get_profile.course.all %}
+								<div class='course-item row-fluid' style='margin-bottom:10px'>
+									<div class='course-number header-row pull-left' style='width:25%'>
+										<p>
+											{{course.course_number}}
+										</p>
+									</div>
+									<div class='title header-row pull-left' style='width:25%'>
+										<p>
+											{{course.course_book.all|length}}
+										</p>
+									</div>
+									<div class='sell header-row pull-left' style='width:25%'>
+										<p>
+											<a href='/book/buy/search/course/listed/?course_number={{course.course_number}}&school_id={{course.institution.id}}' style='color:#O8C;'/>
+											{% if all_book_sell %}
+												<script>
+													var sell_count_course = 0
+												</script>
+												{% for sell in all_book_sell %}
+													{% if sell.course == course and sell.seller != user_login %}	
+														<script>
+															sell_count_course++
+														</script>
+													{% endif %}
+												{% endfor %}
+												<script>
+													document.write(sell_count_course)
+												</script>
+											{% else %}
+												0
+											{% endif %}
+											</a>
+										</p>
+									</div>
+									<div class='edit-delete header-row pull-left' style='width:25%'>
+										<p>
+											<input type='button' class='btn btn-mini' value='Edit' onclick='window.location.href="/book/buy/item/edit/?buy_book_id={{buy.pk}}"'>
+											<input type='button' class='btn btn-mini' value='Delete' onclick='window.location.href="/book/buy/item/delete/?buy_book_id={{buy.pk}}"'>
+										</p>
+									</div>
+									<!-- <div class='action header-row pull-left' style='width:25%'>
+										<p>
+											<input type='button' class='btn btn-small' value='View' onclick='window.location.href=""'/>
+										</p>
+									</div> -->
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+						{% endif %}
+				</div>
+			</div>
+			<div class='buy-by-book' style='margin-top:30px'>
+				<div class='title' style='font-size:19px; font-weight:bold'>
+					by book
+				</div>
+				<div class='content' style='width:1000px'>
+					<div class='table-header row-fluid'>
+						<div class='title header-row pull-left' style='width:23%'>
+							<h5>Titles</h5>
+						</div>
+						<div style="width:2%"></div>
+						<div class='author header-row pull-left' style='width:18%'>
+							<h5>Author</h5>
+						</div>
+						<div style="width:2%"></div>
+						<div class='available-sell header-row pull-left' style='width:10%'>
+							<h5>Available</h5>
+						</div>
+						<div class='bid header-row pull-left' style='width:5%'>
+							<h5>Bid</h5>
+						</div>
+				 		<div class='email-text-alert header-row pull-left' style='width:10%'>
+							<h5>Email alert</h5>
+						</div>
+						<div class='swap-status header-row pull-left' style='width:10%'>
+							<h5>Swap status</h5>
+						</div>
+						<div class='edit-delete header-row pull-left' style='width:10%'>
+							<h5>Edit/Delete</h5>
+						</div>
+						<!-- <div class='view-offer header-row pull-left' style='width:10%'>
+							<h5>View</h5>
+						</div> -->
+					</div>
+					{% if user_login.get_profile.buy_book.all|length > 0 %}
+						<div class='table-body row-fluid'>
+							<div class='list-buy-book row-fluid'>
+								{% for buy in user_login.get_profile.buy_book.all %}
+								{% if buy.book.isbn10 %}
+									<script>
+										var isbn = "{{buy.book.isbn10}}"
+									</script>
+								{% else %}
+									<script>
+										var isbn = "{{buy.book.isbn13}}"
+									</script>
+								{% endif %}
+								<div class='buy-book-item row-fluid' style='margin-bottom:10px'>
+									<div class='title header-row pull-left' style='width:23%'>
+										<p>
+											{{buy.book.title}}
+										</p>
+									</div>
+									<div style="width:2%"></div>
+									<div class='author header-row pull-left' style='width:18%'>
+										<p>
+											{{buy.book.author}}
+										</p>
+									</div>
+									<div style="width:2%"></div>
+									<div class='available-sell header-row pull-left' style='width:10%'>
+										<p>
+											<script>
+												var btn_html = "<a href='#' style='color:#O8C;text-decoration:underline;' onclick='handle_view_listed_buy_item(" + '"' + isbn.toString() + '"' + ")' />" 
+												document.write(btn_html)
+											</script>
+											{% if all_book_sell %}
+												<script>
+													var sell_count_book = 0
+												</script>
+												{% for sell in all_book_sell %}
+											
+													{% if sell.book == buy.book and sell.seller != user_login %}	
+														<script>
+															sell_count_book++
+														</script>
+													{% endif %}
+												{% endfor %}
+												<script>
+													document.write(sell_count_book)
+												</script>
+											{% else %}
+												0
+											{% endif %}
+											</a>
+										</p>
+									</div>
+									<div class='bid header-row pull-left' style='width:5%'>
+										<p>
+											{% if all_book_sell %}
+												<script>
+													var count_bid = 0
+												</script>
+												{% for sell in all_book_sell %}
+													{% if sell.book == buy.book %}
+														<script>
+															var num_offer = 0
+														</script>
+														{% for offer in sell.offer.all %}
+															{% if offer.offer_type == '1' and offer.user_receive != user_login %}
+																<script>
+																	num_offer++
+																</script>
+															{% endif %}
+														{% endfor %}
+														<script>
+															count_bid = count_bid + num_offer
+														</script>
+													{% endif %}
+												{% endfor %}
+												<script>
+													document.write(count_bid)
+												</script>
+											{% else %}
+												0
+											{% endif %}
+											</a>
+										</p>
+									</div>
+				 					<div class='email-text-alert header-row pull-left' style='width:10%'>
+										<p>
+											{% if buy.alert_email == 1 %}
+												on
+											{% else %}
+												off
+											{% endif %}
+										</p>
+									</div>
+									<div class='swap-status header-row pull-left' style='width:10%'>
+										<p>
+											
+										</p>
+									</div>
+									<div class='edit-delete header-row pull-left' style='width:10%'>
+										<p>
+											<input type='button' class='btn btn-mini' value='Edit' onclick='window.location.href="/book/buy/item/edit/?buy_book_id={{buy.pk}}"'>
+											<input type='button' class='btn btn-mini' value='Delete' onclick='window.location.href="/book/buy/item/delete/?buy_book_id={{buy.pk}}"'>
+										</p>
+									</div><!-- 
+									<div class='action header-row pull-left' style='width:10%'>
+										<p>
+											<script>
+												var btn_html = "<input type='button' class='btn btn-small' value='View' onclick='handle_view_listed_buy_item(" + '"' + isbn.toString() + '"' + ")' />" 
+												document.write(btn_html)
+											</script>
+										</p>
+									</div> -->
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class='buy-by-book' style='margin-top:30px'>
+				<div class='title' style='font-size:19px; font-weight:bold'>
+					by authors
+				</div>
+				<div class='content' style='width:1000px'>
+					<div class='table-header row-fluid'>
+						<div class='author header-row pull-left' style='width:20%'>
+							<h5>Author</h5>
+						</div>
+						<div class='title header-row pull-left' style='width:10%'>
+							<h5>Titles</h5>
+						</div>
+						<div class='available-sell header-row pull-left' style='width:10%'>
+							<h5>Copies</h5>
+						</div>
+						<!-- <div class='view-offer header-row pull-left' style='width:10%'>
+							<h5>View</h5>
+						</div> -->
+						<div class='delete header-row pull-left' style='width:10%'>
+							<h5>Delete</h5>
+						</div>
+					</div>
+					{% if user_login.get_profile.available_book_author.all|length > 0 %}
+						<div class='table-body row-fluid'>
+							<div class='list-author row-fluid'>
+								{% for author in user_login.get_profile.available_book_author.all %}
+								<div class='author-item row-fluid' style='margin-bottom:10px'>
+									<div class='author item-row pull-left' style='width:18%'>
+										<p>
+											{{author.author}}
+										</p>
+									</div>
+									<div class='author-title item-row pull-left' style='width:10%' >
+										<p>
+											0
+										</p>
+									</div>
+									<div class='available-sell item-row pull-left' style='width:10%'>
+										<p>
+											0
+											<!-- {% if all_book_sell %}
+												<script>
+													var sell_count_book = 0
+												</script>
+												{% for sell in all_book_sell %}
+											
+													{% if sell.book == buy.book and sell.seller != user_login %}	
+														<script>
+															sell_count_book++
+														</script>
+													{% endif %}
+												{% endfor %}
+												<script>
+													document.write(sell_count_book)
+												</script>
+											{% else %}
+												0
+											{% endif %} -->	
+										</p>
+									</div><!-- 
+									<div class='action header-row pull-left' style='width:10%'>
+										<p>
+											<input type='button' class='btn btn-mini' value='View' />
+											<script>
+												var btn_html = "<input type='button' class='btn btn-small' value='View' onclick='handle_view_listed_buy_item(" + '"' + isbn.toString() + '"' + ")' />" 
+												document.write(btn_html)
+											</script>
+										</p>
+									</div> -->
+									<div class='delete item-row pull-left' style='width:10%'>
+										<p>
+											<input type='button' class='btn btn-mini' value='Delete' onclick='window.location.href="/book/buy/author/available_book/delete/?available_book_author_id={{author.pk}}"'>
+										</p>
+									</div>
+									
+								</div>
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class='book-selling-area'>	
+		<div class='title'>
+			<h3>Sell</h3>
+		</div>
+		<div class='content'>
+			<div class='table-header row-fluid'>
+				<div class='title header-row pull-left' style='width:20%'>
+					<h5>Title</h5>
+				</div>
+				<div style="width:2%"></div>
+				<div class='author header-row pull-left' style='width:15%'>
+					<h5>Author</h5>
+				</div>
+				<div style="width:2%"></div>
+				<div class='course header-row pull-left' style='width:6%'>
+					<h5>Course</h5>
+				</div>
+				<div class='action header-row pull-left' style='width:10%'>
+					<h5>Offer Px</h5>
+				</div>
+				<div class='condition header-row pull-left' style='width:10%'>
+					<h5>Condition </br>(1-5,5 best)</h5>
+				</div>
+				<div class='offer header-row pull-left' style='width:5%'>
+					<h5>Bids</h5>
+				</div><!-- 
+				<div class='view-offer header-row pull-left' style='width:10%'>
+					<h5>View</h5>
+				</div> -->
+				 <div class='email-text-alert header-row pull-left' style='width:10%'>
+					<h5>Email alert</h5>
+				</div>
+				<div class='swap-status header-row pull-left' style='width:10%'>
+					<h5>Swap status</h5>
+				</div>
+				<div class='edit-delete header-row pull-left' style='width:10%'>
+					<h5>Edit/Delete</h5>
+				</div>
+			</div>
+			{% if book_sell|length > 0 %}
+			<div class='table-body row-fluid'>
+				<div class='list-book-selling row-fluid'>
+				{% for book in book_sell %}
+					<div class='book-selling-item row-fluid' style='margin-bottom:10px' id='book_selling_item_{{book.pk}}'>
+						<div class='book-title item-row pull-left' style="width:20%">
+							<p>
+								{{book.book.title}}
+							</p>
+						</div>
+						<div class='book-author item-row pull-left' style='width:15%'>
+							<p>
+								{{book.book.author}}
+							</p>
+						</div>
+						<div style="width:2%"></div>
+						<div class='book-course item-row pull-left' style='width:6%'>
+							<p>
+								{{book.course.course_number}}
+							</p>
+						</div>
+						<div class='book-price item-row pull-left' style='width:10%'>
+							<p>
+								${{book.price}}
+							</p>
+						</div>
+						<div class='book-condition item-row pull-left' style='width:10%'>
+							<p>
+								{{book.condition}}
+							</p>
+						</div>
+						<div class='book-offer item-row pull-left' style='width:5%'>
+							<p>
+								<a href='/notification/offer/?transaction_id={{book.transaction_id}}' style='color:#08C;text-decoration:underline;'/>
+								{% if book.offer.all|length > 0 %}
+									<script type="text/javascript"> 
+										var count_new = 0;
+										var count_normal = 0;
+										var max = 0;
+									</script>
+									{% for offer in book.offer.all %}
+										<script>
+											var offer_price = parseFloat("{{offer.price}}");
+											if (offer_price > max) {
+												max = offer_price;
+											}
+										</script>
+										{% if offer.view_status == "new" and offer.offer_type == "1" %}
+											<script type="text/javascript"> 
+												count_new = count_new + 1
+											</script>
+										{% endif %}
+										{% if offer.offer_type == "1" %}
+											<script type="text/javascript"> 
+												count_normal = count_normal + 1
+											</script>
+										{% endif %}
+									{% endfor %}
+									<script type="text/javascript"> 
+										if (count_new != 0) {
+											document.write("New (" + count_normal + ")")
+										} else {
+											document.write(count_normal)
+										}
+									</script>
+								{% else %}
+									0
+								{% endif %}
+								</a>
+							</p>
+						</div>
+						<div class='book-email-text-alert item-row pull-left' style='width:10%'>
+							<p>
+								{% if book.alert_email == 1 %}
+									on
+								{% else %}
+									off
+								{% endif %}
+							</p>
+						</div>
+						<div class='book-swap-status item-row pull-left' style='width:10%'>
+							<p>
+								{% if book.status == "Pending" %}
+									<span style='font-weight:bold;'>Sold</span> - <span style='font-weight:bold;color:red'>Location Pending</span>
+									<script>
+										$("#book_selling_item_{{book.pk}}").addClass("bold");
+										$("#book_selling_item_{{book.pk}} .book-price").addClass('accepted-price');
+									</script>
+								{% elif book.status == "Complete" %}
+									{{book.transaction_time.month}}/{{book.transaction_time.day}}/{{book.transaction_time.year}} - 
+									<script>
+										document.write(convert_24hr_to_AM_PM(parseInt("{{book.transaction_time.hour}}"),parseInt("{{book.transaction_time.minute}}")))
+									</script>
+									</br>
+									{{book.location}}
+								{% else %}
+									{% if book.offer.all|length > 0 %}
+										<script>
+											document.write("$" + offer_price + " - Best bid");
+										</script>
+									{% else %}
+										No bids
+									{% endif %}
+								{% endif %}
+							</p>
+						</div>
+						<div class='book-edit-delete item-row pull-left' style='width:10%'>
+							<p>
+								<input type='button' class='btn btn-mini' value='Edit' onclick='window.location.href="/book/sell/edit/?transaction_id={{book.transaction_id}}"'>
+								<input type='button' class='btn btn-mini' value='Delete' onclick='window.location.href="/book/sell/delete/?transaction_id={{book.transaction_id}}"'>
+							</p>
+						</div>
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+		</div>
+		
+	</div>
+	<div class='book-trading-area'>	
+		<div class='title'>
+			<h3>Trade / Give</h3>
+		</div>
+		
+		<div class='content'>
+			<div class='table-header row-fluid'>
+				<div class='title header-row pull-left' style='width:20%'>
+					<h5>Title</h5>
+				</div>
+				<div style="width:2%"></div>
+				<div class='author header-row pull-left' style='width:16%'>
+					<h5>Author</h5>
+				</div>
+				<div style="width:2%"></div>
+				<div class='course header-row pull-left' style='width:10%'>
+					<h5>Course</h5>
+				</div>
+				<!-- <div class='action header-row pull-left' style='width:7%'>
+					<h5>Action</h5>
+				</div> -->
+				<div class='condition header-row pull-left' style='width:10%'>
+					<h5>Condition </br>(1-5,5 best)</h5>
+				</div>
+				<div class='offer header-row pull-left' style='width:10%'>
+					<h5>Offers</h5>
+				</div>
+				<!-- <div class='view-offer header-row pull-left' style='width:10%'>
+					<h5>View Offers</h5>
+				</div> -->
+				 <div class='email-text-alert header-row pull-left' style='width:10%'>
+					<h5>Email alert</h5>
+				</div>
+				<div class='swap-status header-row pull-left' style='width:10%'>
+					<h5>Swap status</h5>
+				</div>
+				<div class='edit-delete header-row pull-left' style='width:10%'>
+					<h5>Edit/Delete</h5>
+				</div>	
+			</div>
+			{% if book_trade_give|length > 0 %}
+			<div class='table-body row-fluid'>
+				<div class='list-book-selling row-fluid'>
+				{% for book in book_trade_give %}
+					<div class='book-selling-item row-fluid' style='margin-bottom:10px'>
+						<div class='book-title item-row pull-left' style="width:20%">
+							<p>
+								{{book.book.title}}
+							</p>
+						</div>
+						<div style="width:2%"></div>
+						<div class='book-author item-row pull-left' style='width:16%'>
+							<p>
+								{{book.book.author}}
+							</p>
+						</div>
+						<div style="width:2%"></div>
+						<div class='book-course item-row pull-left' style='width:10%'>
+							<p>
+								{{book.course.course_number}}
+							</p>
+						</div>
+						<!-- <div class='book-action item-row pull-left' style='width:7%'>
+							<p>
+								{% if book.transaction_type == "1"%}
+									${{book.price}}
+								{% else %}
+									Trade/Give
+								{% endif %}
+							</p>
+						</div> -->
+						<div class='book-condition item-row pull-left' style='width:10%'>
+							<p>
+								{{book.condition}}
+							</p>
+						</div>
+						<div class='book-offer item-row pull-left' style='width:10%'>
+							<p>
+								{{ book.offer_set.all|length }}
+							</p>
+						</div>
+						<!-- <div class='book-view-offer item-row pull-left' style='width:10%'>
+							<p>
+								<input type='button' class='btn btn-mini' value='View'>
+							</p>
+						</div> -->
+						<div class='book-email-text-alert item-row pull-left' style='width:10%'>
+							<p>
+								{% if book.alert_email == 1 %}
+									on
+								{% else %}
+									off
+								{% endif %}
+							</p>
+						</div>
+						<div class='book-swap-status item-row pull-left' style='width:10%'>
+							<p>
+								{{book.status}}
+							</p>
+						</div>
+						<div class='book-edit-delete item-row pull-left' style='width:10%'>
+							<p>
+								<input type='button' class='btn btn-mini' value='Edit'>
+								<input type='button' class='btn btn-mini' value='Delete'>
+							</p>
+						</div>
+						
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	
+	</div>
+	{% endif %}
+<!-- </div> -->
+{% endblock %}

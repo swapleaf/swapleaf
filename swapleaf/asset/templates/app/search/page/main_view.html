@@ -1,0 +1,113 @@
+{% extends 'app/search/search_base.html' %}
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+    <div class='title'>
+        <h2>Search</h2>
+    </div>
+    
+    <div class='search-area row-fluid'>
+        <form method="get" action=".">
+            <fieldset>
+        	   <label> Search</label>
+        	   <input type='text' id='search_input' size="100" name='q' style='width:200px'/>
+            </fieldset>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    
+    <div class='display-area'>
+        <div class='book-section'>
+            <div class='title'>
+                <h3>Book Results</h3>
+            </div>
+
+            {% if books %}
+            <div class='table-header row-fluid' style='width:1000px'>
+			     <div class='title header-row pull-left' style='width:45%'>
+				    <h4>Title</h4>
+			     </div>
+			     <div class='author header-row pull-left' style='width:25%'>
+				    <h4>Author</h4>
+			     </div>
+			     <div class='isbn header-row pull-left' style='width:30%'>
+				    <h4>ISBN 10-13</h4>
+			     </div>	
+		    </div>
+            <div class='list-found-book row-fluid' style='width:1000px'>
+            {% for book in books %}
+                <div class='book-item row-fluid'>
+                    <div class='title item-row pull-left' style='width:45%'>
+                        {{ book.title }}
+                    </div>
+                    <div class='author item-row pull-left' style='width:25%'>
+                        {% if book.author %}
+                            {{ book.author }}
+                        {% else %}
+                            Unknown
+                        {% endif %}
+                    </div>
+                    <div class='isbn item-row pull-left' style='width:30%'>
+                        {% if book.isbn13 %}
+                            {{ book.isbn10 }} - {{book.isbn13}}
+                        {% else %}
+                            {{ book.isbn10 }}
+                        {% endif %}
+                    </div>
+                    <div class='action item-row pull-left' style='width:300px'>
+                        <input type='button' class='btn btn-small' id='buy_btn' value='Buy'>
+                        <input type='button' class='btn btn-small' id='sell_btn' value='Sell'>
+                        <input type='button' class='btn btn-small' id= 'trade_give_btn' value='Trade/Give'>
+                    </div>
+                </div>        
+            {% endfor %}
+            </div>
+            {% else %}
+    	    <div class='no-item-message'>
+                There are no book found with your search. Please try again
+            </div>
+            {% endif %} 
+        </div>
+
+        <div class='people-section'>
+            <div class='title'>
+                <h3>People Result</h3>
+            </div>
+
+            {% if people %}
+            <div class='list-found-people row-fluid' style='width:1000px'>
+            {% for person in people %}
+                <div class='people-item row-fluid'>
+                    <div class='name item-row pull-left' style='width:45%'>
+                        {{ person.first_name }} {{ person.last_name }}
+                    </div>
+                    <div class='people-school row-fluid pull-left' style='width:55%'>
+                        {% if person.institution_set.all %}
+                            {% with person.institution_set.all|first as first_inst %}
+                                {{ first_inst.name }}
+                            {% endwith %}
+                        {% endif %}
+                    </div>
+                    <div class='action item-row' style='width:100px'>
+                        {% if person.get_profile.partner_status == -1 %}
+                            <input type='button' class='btn btn-small' id='invite_{{person.username}}' value='Invite Partner' onclick='handle_invite_partner(this)'>
+                        {% elif person.get_profile.partner_status == 1 %}
+                            <input type='button' class='btn btn-small' id='delete_{{person.username}}' value='Delete Partner' onclick='handle_delete_partner(this)'>
+                        {% elif person.get_profile.partner_status == -2 %}
+                            <input type='button' class='btn btn-small disabled' id='waiting_{{person.username}}' value='Waiting Response'>
+                        {% else  %}
+                            <input type='button' class='btn btn-small' id='response_{{person.username}}' value='Respond'>
+                        {% endif %}
+                    </div>
+                </div>        
+            {% endfor %}
+            </div>
+            {% else %}
+            <div class='no-item-message'>
+                There are no people found with your search. Please try again
+            </div>
+            {% endif %}
+        </div>
+    </div>
+<!-- </div> -->
+{% endblock %}

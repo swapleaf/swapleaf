@@ -1,0 +1,18 @@
+{% extends "app/book/book_base.html" %}
+
+{% block main_section %}
+<div id='buy_book_course_confirm_area'>
+	<div class='header'>
+		<h3>Please confirm your course #</h3>
+	</div>
+	<div class='content'>
+		<div class='confirm-message' style='font-size:24.5px; margin-bottom: 30px;margin-top:20px'>
+			{{school.name}} {{course_number}}
+		</div>
+	</div>
+</div>
+<div class='decide-btn-area'> 
+	<input type='button' class='btn btn-primary' value='Confirm' onClick='window.location.href="/book/buy/course/process/?school_id={{school.id}}&course_number={{course_number}}"' style='margin-right:15px'/> 
+	<input type='button' class='btn' value='Edit' onClick='window.location.href="/book/buy/"' /> 
+</div>
+{% endblock %}

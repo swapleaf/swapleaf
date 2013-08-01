@@ -1,0 +1,52 @@
+{% extends "app/book/book_base.html" %} 
+
+{% block main_section %}
+<!-- <div class='main-section'> -->
+<!-- <div id="buy_book_listed_area">
+	<div class='display-book'>
+		{% if authors %}
+			<div class='table-header row-fluid' style='width:800px'>
+				<div class='name header-row pull-left' style='width:40%'>
+					<h4>Name</h4>
+				</div>
+				<div class='select-action header-row pull-left' style='width:25%'>
+					<h4>Select</h4>
+				</div>
+			</div>
+			<div class='table-body row-fluid' style='width:800px'>
+				<div class='list-author row-fluid'>
+				{% for author in authors %}
+					<div class='author-item row-fluid'>
+						<div class='name item-row pull-left' style='width:40%'>
+							<p>{{ author }}</p>
+						</div>
+						<div class='select-action item-row pull-left' style='width:25%'>
+							<input type='button' class='btn btn-small' id="author_{{author}}" value='Select' onclick='window.location.href="/book/buy/"'>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% else %}
+			<div class='no-item-message'>
+				There are no author found with your search. Please try again
+			</div>
+		{% endif %}
+		
+	</div>
+</div> -->
+<!-- </div> -->
+<div id='buy_book_available_author_confirm_area'>
+	<div class='header'>
+		<h3>Please confirm your author</h3>
+	</div>
+	<div class='content'>
+		<div class='confirm-message' style='font-size:24.5px; margin-bottom: 30px;margin-top:20px'>
+			{{author}}
+		</div>
+	</div>
+</div>
+<div class='decide-btn-area'> 
+	<input type='button' class='btn btn-primary' value='Confirm' onClick='window.location.href="/book/buy/author/available_book/process/?available_book_author={{author}}"' style='margin-right:15px'/> 
+	<input type='button' class='btn' value='Edit' onClick='window.location.href="/book/buy/"' /> 
+</div>
+{% endblock %}
