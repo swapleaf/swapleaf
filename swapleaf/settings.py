@@ -260,4 +260,4 @@ HAYSTACK_WHOOSH_PATH = os.path.join(ROOT_PATH, 'db/whoosh/')
 HAYSTACK_USE_REALTIME_SEARCH = False
 
 import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://postgres:123456@localhost:5432/swapleaf.sql')}
+DATABASES = {'default': dj_database_url.config(default='postgres://postgres:der49uPrahut@localhost:5432/d1rp1hflg34qni')}
